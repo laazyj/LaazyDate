@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>LaazyDate</id>
+    <title>LaazyDate</title>
+    <version>@build.number@</version>
+    <authors>Jason Duffett</authors>
+    <owners>Jason Duffett</owners>
+    <summary>First class Date type for .NET</summary>
+    <projectUrl>https://github.com/laazyj/LaazyDate</projectUrl>
+    <licenseUrl>https://github.com/laazyj/LaazyDate/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Frustrated at the lack of a "Date" type in the .NET framework? Don't need all the awesome power of NodaTime? LaazyDate provides a full featured Date type for .NET with natural interaction, conversion and comparison to DateTime.</description>
+    <releaseNotes>See project website for release notes</releaseNotes>
+    <copyright>Copyright 2016 Jason Duffett</copyright>
+    <tags>Date</tags>
+  </metadata>
+  <files>
+    <file src="tmp\LaazyDate.dll" target="lib" />
+  </files>
+</package>

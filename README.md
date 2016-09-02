@@ -1,8 +1,7 @@
-# LaazyFeatureToggle
+# LaazyDate
 
-A quick & dirty Feature Toggle / Feature Switch implementation in C#.
+Frustrated at the lack of a "Date" type in the .NET framework? 
 
-Useful if you just can't be bothered with a more feature-rich implementation and don't care about lots of important things - Dependency Injection, Testability, etc.
+Don't need all the awesome power of NodaTime? 
 
-You have been warned!
-
+LaazyDate provides a full featured Date type for .NET with natural interaction, conversion and comparison to DateTime.
