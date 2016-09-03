@@ -30,7 +30,12 @@ set FAKE_PATH=%BUILD_PACKAGES_DIR%\FAKE\tools\Fake.exe
 set FAKE_BUILD_FILE=%BUILD_DIR%build.fsx
 set FAKE_VERSION=4.16.0
 set NUNIT_VERSION=2.6.4
-set FAKE_PARAMS=project=%PROJECT_NAME%
+
+rem Version from environment
+if '%VERSION%'=='' set VERSION=%VERSION_NUMBER%
+if '%VERSION%'=='' set VERSION=%APPVEYOR_BUILD_VERSION%
+if '%VERSION%'=='' set VERSION=%BUILD_NUMBER%
+if '%VERSION%'=='' set VERSION=0.0.0.0
 
 echo.
 echo ##########################################################
@@ -40,8 +45,8 @@ echo #   Build Packages Directory: %BUILD_PACKAGES_DIR%
 echo #   NuGet Path:               %NUGET_PATH%
 echo #   Fake Path:                %FAKE_PATH%
 echo #   Fake Build File:          %FAKE_BUILD_FILE%
-echo #   Fake Parameters:          %FAKE_PARAMS%
 echo #   Build Target:             %TARGET%
+echo #   Build Version:            %VERSION%
 echo #
 echo.
 
@@ -80,7 +85,8 @@ if not exist "%BUILD_PACKAGES_DIR%/NUnit.Runners.Net4/" (
 echo.
 
 :RUN
-"%FAKE_PATH%" "%FAKE_BUILD_FILE%" %TARGET% "%FAKE_PARAMS%"
+"%FAKE_PATH%" "%FAKE_BUILD_FILE%" %TARGET% project=%PROJECT_NAME% version=%VERSION%
+
 if %ERRORLEVEL% NEQ 0 (
 	echo Failure within FAKE script.
 	goto FAILED
