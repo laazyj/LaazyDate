@@ -12,6 +12,7 @@ if '%1' == '?' goto PRINT_USAGE
 if '%1' == '/help' goto PRINT_USAGE
 if '%1' == '--help' goto PRINT_USAGE
 if '%1' == '-help' goto PRINT_USAGE
+set TARGET=%1
 
 rem ### Build Script Required Configuration ###
 set "PROJECT_NAME=LaazyDate"
@@ -28,8 +29,8 @@ set NUGET_SOURCE=https://www.nuget.org/api/v2/
 set FAKE_PATH=%BUILD_PACKAGES_DIR%\FAKE\tools\Fake.exe
 set FAKE_BUILD_FILE=%BUILD_DIR%build.fsx
 set FAKE_VERSION=4.16.0
-set FAKE_PARAMS=project=%PROJECT_NAME%
 set NUNIT_VERSION=2.6.4
+set FAKE_PARAMS=project=%PROJECT_NAME%
 
 echo.
 echo ##########################################################
@@ -40,6 +41,7 @@ echo #   NuGet Path:               %NUGET_PATH%
 echo #   Fake Path:                %FAKE_PATH%
 echo #   Fake Build File:          %FAKE_BUILD_FILE%
 echo #   Fake Parameters:          %FAKE_PARAMS%
+echo #   Build Target:             %TARGET%
 echo #
 echo.
 
@@ -78,7 +80,7 @@ if not exist "%BUILD_PACKAGES_DIR%/NUnit.Runners.Net4/" (
 echo.
 
 :RUN
-"%FAKE_PATH%" "%FAKE_BUILD_FILE%" "%FAKE_PARAMS%"
+"%FAKE_PATH%" "%FAKE_BUILD_FILE%" %TARGET% "%FAKE_PARAMS%"
 if %ERRORLEVEL% NEQ 0 (
 	echo Failure within FAKE script.
 	goto FAILED

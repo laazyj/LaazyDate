@@ -16,6 +16,6 @@
     <tags>Date</tags>
   </metadata>
   <files>
-    <file src="tmp\LaazyDate.dll" target="lib" />
+    <file src="LaazyDate.dll" target="lib" />
   </files>
 </package>

@@ -12,7 +12,7 @@ let projectDir = buildDir @@ ".."
 let sourceDir = projectDir @@ "src"
 let sourcePackagesDir = sourceDir @@ "packages"
 let buildPackagesDir = buildDir @@ "packages"
-let buildTempDir = buildDir @@ "tmp"
+let buildOutputDir = buildDir @@ "output"
 let artifactsDir = projectDir @@ "artifacts"
 let testOutputDir = artifactsDir @@ "tests"
 let nugetOutputDir = artifactsDir @@ "nuget"
@@ -31,7 +31,7 @@ printf "#   Source Dir:        %s\n" sourceDir
 printf "#   Source Package Dir %s\n" sourcePackagesDir
 printf "#   Build Dir:         %s\n" buildDir
 printf "#   Build Package Dir: %s\n" buildPackagesDir
-printf "#   Build Temp Dir:    %s\n" buildTempDir
+printf "#   Build Temp Dir:    %s\n" buildOutputDir
 printf "#   Artifacts Dir:     %s\n" artifactsDir
 printf "#   Test Output Dir:   %s\n" testOutputDir
 printf "#   NuGet Output Dir:  %s\n" nugetOutputDir
@@ -40,11 +40,13 @@ printf "#\n\n"
 
 (* Targets *)
 Target "Clean" (fun _ ->
-    CleanDirs [buildTempDir; artifactsDir]
+    tracefn " --- Cleaning artifacts & build directories --- "
+    CleanDirs [buildOutputDir; artifactsDir]
     CleanDirs [testOutputDir; nugetOutputDir]
 )
 
 Target "RestorePackages" (fun _ -> 
+    tracefn " --- Restoring NuGet packages for solution --- "
     (sourceDir @@ projectName + ".sln")
     |> RestoreMSSolutionPackages (fun p ->
         {p with
@@ -55,16 +57,18 @@ Target "RestorePackages" (fun _ ->
 )
 
 Target "Build" (fun _ ->
+    tracefn " --- Building solution --- "
     !! (sourceDir @@ projectName + ".sln")
-        |> MSBuildRelease buildTempDir "clean,build"
+        |> MSBuildRelease buildOutputDir "clean,build"
         |> Log "Build-Output: "
 )
 
 Target "CreatePackage" (fun _ ->
+    tracefn " --- Creating NuGet package --- "
     NuGet (fun p ->
         {p with
             OutputPath = nugetOutputDir
-            WorkingDir = buildDir
+            WorkingDir = buildOutputDir
             Version = versionNumber
             AccessKey = "none"
             Publish = false
@@ -73,7 +77,8 @@ Target "CreatePackage" (fun _ ->
 )
 
 Target "PostClean" (fun _ ->
-    DeleteDir buildTempDir
+    tracefn " --- Cleaning build directories --- "
+    DeleteDir buildOutputDir
 )
 
 Target "Default" DoNothing
@@ -83,7 +88,6 @@ Target "Default" DoNothing
     ==> "RestorePackages"
     ==> "Build"
     ==> "CreatePackage"
-    ==> "PostClean"
     ==> "Default"
 
 (* Entry Point *)
