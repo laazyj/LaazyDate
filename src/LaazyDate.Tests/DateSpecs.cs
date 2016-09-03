@@ -60,9 +60,6 @@ namespace LaazyDate.Tests
         It should_output_as_a_short_date_string_format_using_the_culture_when_specified_as_german_germany = () =>
             date.ToShortDateString(new CultureInfo("de-DE")).ShouldEqual("08.06.2011"); // Default for de-DE is dd.MM.yyyy
 
-        It should_output_as_a_short_date_string_format_using_the_culture_when_specified_as_polish_poland = () =>
-            date.ToShortDateString(new CultureInfo("pl-PL")).ShouldEqual("08.06.2011"); // Default for pl-PL is dd.MM.yyyy
-
         Because of = () =>
             date = new Date(testValue);
 
@@ -81,9 +78,6 @@ namespace LaazyDate.Tests
 
         It should_output_as_a_short_date_string_format_using_the_culture_when_specified_as_german_germany = () =>
             date.ToLongDateString(new CultureInfo("de-DE")).ShouldEqual("Sonntag, 12. Juni 2011"); // Default for de-DE is dddd, d. MMMM yyyy
-
-        It should_output_as_a_short_date_string_format_using_the_culture_when_specified_as_polish_poland = () =>
-            date.ToLongDateString(new CultureInfo("pl-PL")).ShouldEqual("niedziela, 12 czerwca 2011"); // Default for pl-PL is ddd, d MMMM yyyy
 
         Because of = () =>
             date = new Date(testValue);
