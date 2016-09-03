@@ -63,6 +63,17 @@ Target "Build" (fun _ ->
         |> Log "Build-Output: "
 )
 
+Target "Test" (fun _ ->
+    !! (buildOutputDir @@ projectName + "*.Tests.dll")
+        |> NUnit (fun p ->
+            {p with
+                ToolPath = nUnitRunnerDir
+                DisableShadowCopy = true
+                OutputFile = testOutputDir @@ "TestResult.xml"
+            }
+        )
+)
+
 Target "CreatePackage" (fun _ ->
     tracefn " --- Creating NuGet package --- "
     NuGet (fun p ->
@@ -87,6 +98,7 @@ Target "Default" DoNothing
 "Clean"
     ==> "RestorePackages"
     ==> "Build"
+    ==> "Test"
     ==> "CreatePackage"
     ==> "Default"
 

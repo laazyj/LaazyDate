@@ -17,7 +17,7 @@ set TARGET=%1
 rem ### Build Script Required Configuration ###
 set "PROJECT_NAME=LaazyDate"
 rem Set Flags to 1/0 for required testing tools
-set REQUIRES_NUNIT=0
+set REQUIRES_NUNIT=1
 
 rem ### Build Script Optional Configuration ###
 set REPOSITORY_ROOT=%~dp0
